@@ -53,7 +53,7 @@ class UserService{
       return result;
     } catch (error) {
         console.log("Something went wrong while token validation", error);
-        throw error;
+        throw {message: "Invalid token"};
     }
   }
 
@@ -63,6 +63,31 @@ class UserService{
     } catch (error) {
         console.log("Something went wrong while password verification", error);
         throw error;
+    }
+  }
+
+  async isAuthenticated(token){
+    try {
+      const response = this.verifytoken(token);
+      if(!response){
+        throw {error: 'Invalid token'};
+      }
+
+      /*  suppose a user signs in to our app, he will be assigned a token.
+          the expiry of the token is '1d', but if user deletes their account
+          before token expiration so in this case we should not allow api access 
+          through this token. thefore we first check if user is present or not.
+      */
+     
+      const user = await this.userRepository.getById(response.id);
+
+      if(!user){
+        throw {error: 'No user with the corresponding token exists'};
+      }
+
+      return user.id;
+    } catch (error) {
+      throw error;
     }
   }
 }
