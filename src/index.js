@@ -14,8 +14,15 @@ const prepareAndStartServer = ()=>{
 
   app.use('/api', apiRoutes);
 
-  app.listen(PORT, ()=>{
+  const {User, Role} = require("./models/index");
+
+  app.listen(PORT, async ()=>{
     console.log("Server is listening on port ", PORT);
+    
+    const u1 = await User.findByPk(1);
+    const r1 = await Role.findByPk(1);
+    u1.addRole(r1);
+
 
     // const userService = new UserService();
     // const result  = userService.createToken({email: 'parth@gmail.com', id: 1});

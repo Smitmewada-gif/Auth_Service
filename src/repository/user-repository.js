@@ -25,10 +25,10 @@ class UserRepository {
 
   async getById(userId){
     try {
-      await User.findByPk(userId, {
+      const user = await User.findByPk(userId, {
         attributes: ['email', 'id']
       });
-      return true;
+      return user;
     } catch (error) {
       console.log("Something went wrong in repo", error);
       throw error;
