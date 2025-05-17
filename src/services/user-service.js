@@ -90,6 +90,14 @@ class UserService{
       throw error;
     }
   }
+
+  async isAdmin(userId){
+    try {
+      return this.userRepository.isAdmin(userId);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = UserService;
