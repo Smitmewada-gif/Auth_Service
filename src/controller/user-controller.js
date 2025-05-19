@@ -27,18 +27,18 @@ const create = async (req, res) =>{
 const signIn = async (req, res) =>{
   try {
     const response = await userService.signIn(req.body.email, req.body.password);
-    return res.status(500).json({
+    return res.status(200).json({
       data: response,
       success: true,
       message: "Successfully logged in",
       error: {} 
     })
   } catch (error) {
-    return res.status(500).json({
+    return res.status(error.statusCode).json({
       data: {},
       success: false,
-      message: "Not able to sign in ",
-      error: error 
+      message: error.message,
+      error: error.explanation 
     });
   }
 }
